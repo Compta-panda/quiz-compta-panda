@@ -63,10 +63,13 @@ footer{text-align:center;font-size:14px;color:#a99fc0}
 </div>
 
 <script>
-// Comptage anonyme des réponses (compteurs publics abacus, sans cookie ni donnée personnelle)
-const NS = "compta-panda-chapeau";
-function hit(key){ try{ fetch("https://abacus.jasoncameron.dev/hit/"+NS+"/"+key,{mode:"cors",keepalive:true}).catch(()=>{}); }catch(e){} }
-hit("visites");
+// Comptage anonyme : chaque résultat est enregistré dans un formulaire Google du cabinet (aucune donnée personnelle)
+function countResult(name){
+  try{
+    fetch("https://docs.google.com/forms/d/e/1FAIpQLSeoDjm246ah6YrQuIxciRo8oX8BBpq7r9DUeuCwdGa610WYQA/formResponse",
+      {method:"POST",mode:"no-cors",keepalive:true,body:new URLSearchParams({"entry.1602020107":name})}).catch(()=>{});
+  }catch(e){}
+}
 const FORM_URL = "";
 
 const Q = [
@@ -119,7 +122,7 @@ function winner(){
 function showResult(){
   drawProgress();
   const h = H[winner()];
-  hit("reponses"); hit(h.key);
+  countResult(h.name);
   const link = FORM_URL ? FORM_URL.replace("ECOLE", encodeURIComponent(h.name)) : "";
   card.innerHTML = `<div class="result">
     <div class="small">Le Chapeau a parlé…</div>
@@ -129,7 +132,7 @@ function showResult(){
     <p>${h.text}</p>
     <div class="offer">
       <p><b>Bonne nouvelle : chez Compta Panda, les quatre écoles sont les bienvenues.</b> Recevez votre diagnostic personnalisé lors d'un appel de 10 minutes, sans engagement.</p>
-      <p style="margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a class="btn" onclick="hit('rdv')" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2pWUoccJxOYGCry-hTSz2GZqtO36eBPD5rU3DgX8rw3CUGLOB3mqPcbfN1N4peeMdmKbqtHQZe" target="_blank" rel="noopener">Prendre rendez-vous ✨</a>${link ? `<a class="btn ghost" href="${link}" target="_blank" rel="noopener">Je veux être rappelé</a>` : ""}</p>
+      <p style="margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a class="btn" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2pWUoccJxOYGCry-hTSz2GZqtO36eBPD5rU3DgX8rw3CUGLOB3mqPcbfN1N4peeMdmKbqtHQZe" target="_blank" rel="noopener">Prendre rendez-vous ✨</a>${link ? `<a class="btn ghost" href="${link}" target="_blank" rel="noopener">Je veux être rappelé</a>` : ""}</p>
       <p class="contact" style="margin-top:14px">Ou contactez-nous directement :<br>
         Emmanuel HARROCH, Expert-Comptable diplômé<br><b>06 50 41 85 82</b> · <b>contact@compta-panda.com</b></p>
     </div>
