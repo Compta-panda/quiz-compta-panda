@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Le Chapeau des Comptes</title>
+<meta name="description" content="Pandor, Bamboufsouffle, Serpentaxe ou Serdébit ? Découvrez votre école de comptabilité avec Compta Panda Expertise.">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+/* Layout: une seule colonne de parchemin sur fond de nuit étoilée, une question à la fois */
+:root{
+  --night:#141027; --night2:#1f1940; --gold:#e2bc62; --gold-soft:#b8963f;
+  --parch:#f5ecd7; --ink:#2a2140; --muted:#6b5f80; --line:#d9c9a3;
+  --display:"Cinzel","Trajan Pro",Georgia,serif; --body:"Crimson Pro",Georgia,"Times New Roman",serif;
+  color-scheme:dark;
+}
+html,body{min-height:100%}
+body{background:radial-gradient(1200px 600px at 50% -10%,var(--night2),var(--night));color:var(--parch);font-family:var(--body);font-size:19px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 48px}
+.wrap{max-width:620px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+header{text-align:center;display:flex;flex-direction:column;gap:6px}
+.logo{align-self:center;background:#fff;border-radius:10px;padding:10px 14px;box-shadow:0 0 0 1px var(--gold-soft),0 0 0 5px rgba(226,188,98,.15);margin-bottom:8px}
+.logo img{display:block;width:200px;height:auto}
+.eyebrow{font-family:var(--display);letter-spacing:.25em;font-size:12px;color:var(--gold);text-transform:uppercase}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(28px,6vw,40px);margin:0;color:var(--gold);text-wrap:balance}
+.lead{margin:0;color:#d8cfe6;font-style:italic}
+.card{background:var(--parch);color:var(--ink);border-radius:6px;padding:28px 24px;box-shadow:0 0 0 1px var(--gold-soft),0 0 0 6px rgba(226,188,98,.12),0 20px 50px rgba(0,0,0,.45);min-width:0}
+.progress{display:flex;gap:6px;justify-content:center}
+.progress span{width:28px;height:4px;border-radius:2px;background:rgba(226,188,98,.25)}
+.progress span.on{background:var(--gold)}
+h2{font-family:var(--display);font-size:22px;margin:0 0 16px;text-wrap:balance}
+.answers{display:grid;gap:10px}
+.answers button{font:inherit;text-align:left;background:#fffaf0;color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:12px 14px;cursor:pointer;display:flex;gap:12px;align-items:flex-start}
+.answers button:hover{border-color:var(--gold-soft);background:#fff6df}
+.answers button:focus-visible,.btn:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.sym{font-size:22px;line-height:1.2}
+.qnum{font-family:var(--display);font-size:12px;letter-spacing:.2em;color:var(--muted);margin-bottom:6px}
+.result{text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center}
+.crest{font-size:56px;line-height:1}
+.house{font-family:var(--display);font-size:clamp(30px,8vw,44px);font-weight:700;margin:0;letter-spacing:.06em}
+.motto{font-style:italic;color:var(--muted);margin:0}
+.result p{margin:0;max-width:52ch}
+.offer{border-top:1px solid var(--line);padding-top:16px;margin-top:4px;width:100%}
+.btn{font-family:var(--display);font-size:15px;letter-spacing:.08em;display:inline-block;background:var(--ink);color:var(--gold);border:0;border-radius:6px;padding:14px 20px;text-decoration:none;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.contact{font-size:17px}
+.contact b{user-select:all}
+.small{font-size:14px;color:var(--muted)}
+footer{text-align:center;font-size:14px;color:#a99fc0}
+@media (prefers-reduced-motion:no-preference){.card{animation:in .35s ease-out}@keyframes in{from{transform:translateY(6px);opacity:.6}to{transform:none;opacity:1}}}
+</style>
+
+<style>html{padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}body{margin:0}img{max-width:100%}</style>
+</head><body>
+<div class="wrap">
+  <header>
+    <div class="logo"><img src="https://compta-panda.com/assets/img/logo/compta-panda-expertise.webp" alt="Compta Panda Expertise" width="200" height="75"></div>
+    <div class="eyebrow">✦ présente ✦</div>
+    <h1>Le Chapeau des Comptes</h1>
+    <p class="lead">Cinq questions, une minute : découvrez dans quelle école de comptabilité vous êtes.</p>
+  </header>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <main class="card" id="card" aria-live="polite"></main>
+  <footer>Compta Panda Expertise · Expert-comptable à Rosny-sous-Bois · www.compta-panda.com</footer>
+</div>
+
+<script>
+// Comptage anonyme des réponses (compteurs publics abacus, sans cookie ni donnée personnelle)
+const NS = "compta-panda-chapeau";
+function hit(key){ try{ fetch("https://abacus.jasoncameron.dev/hit/"+NS+"/"+key,{mode:"cors",keepalive:true}).catch(()=>{}); }catch(e){} }
+hit("visites");
+const FORM_URL = "";
+
+const Q = [
+  {q:"Fin du mois, vos factures sont…", a:["un tas courageux sur le coin du bureau","classées, agrafées, numérotées","déjà déduites jusqu'au dernier centime","dans un tableau Excel à 14 onglets"]},
+  {q:"Un courrier des impôts arrive. Vous…", a:["l'ouvrez sans trembler (enfin, presque)","appelez votre comptable dans l'heure","cherchez déjà ce qui est déductible","relisez le Code général des impôts"]},
+  {q:"Votre banquier vous demande votre bilan. Vous…", a:["lui parlez surtout de votre prochain projet","lui envoyez le PDF dans la minute","négociez déjà le taux","arrivez avec trois scénarios de trésorerie"]},
+  {q:"Votre plus grande peur administrative…", a:["rater une opportunité à cause de la paperasse","oublier une échéance","payer un impôt de trop","ne pas savoir où en est ma trésorerie"]},
+  {q:"Votre rêve pour l'an prochain…", a:["lancer un nouveau projet","dormir tranquille, tout est à jour","payer moins d'impôts, légalement","savoir combien je gagne, en temps réel"]}
+];
+const SYM = ["🦁","🦡","🐍","🦅"];
+const H = [
+  {name:"PANDOR",key:"pandor",sym:"🦁",color:"#9a2b22",motto:"Audace, élan et grands projets",
+   text:"Vous foncez, et c'est votre force. Nous sécurisons chaque étape derrière vous : création ou développement de société, business plan, dossier de prêt bancaire."},
+  {name:"BAMBOUFSOUFFLE",key:"bamboufsouffle",sym:"🦡",color:"#a87a12",motto:"Loyauté, rigueur et sérénité",
+   text:"Vous aimez quand tout est carré. Nous prenons en charge la tenue, la paie et les déclarations : zéro oubli, zéro stress, et un interlocuteur qui connaît votre dossier."},
+  {name:"SERPENTAXE",key:"serpentaxe",sym:"🐍",color:"#1f6b45",motto:"Ruse, ambition et chaque euro compte",
+   text:"Vous traquez chaque euro. Nous optimisons votre fiscalité et votre rémunération de dirigeant, en toute légalité, et nous anticipons vos échéances."},
+  {name:"SERDÉBIT",key:"serdebit",sym:"🦅",color:"#2b4f8c",motto:"Curiosité, analyse et chiffres en direct",
+   text:"Vous voulez des chiffres, tout de suite. Nous vous livrons des tableaux de bord en temps réel dans un espace 100 % digital, accessible partout."}
+];
+
+const card = document.getElementById("card"), prog = document.getElementById("progress");
+let step = 0, score = [0,0,0,0], last = 0;
+
+function drawProgress(){
+  prog.innerHTML = Q.map((_,i)=>`<span class="${i<step?'on':''}"></span>`).join("");
+}
+function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+
+function showQuestion(){
+  drawProgress();
+  const item = Q[step];
+  // l'ordre des réponses change à chaque question pour ne pas rendre le choix évident
+  const order = [0,1,2,3].sort(()=>Math.random()-.5);
+  card.innerHTML = `<div class="qnum">QUESTION ${step+1} SUR ${Q.length}</div><h2>${esc(item.q)}</h2>
+    <div class="answers">${order.map(i=>`<button type="button" id="q${step}a${i}" data-h="${i}"><span class="sym">${SYM[i]}</span><span>${esc(item.a[i])}</span></button>`).join("")}</div>`;
+  card.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{
+    const h = +b.dataset.h; score[h]++; last = h; step++;
+    step < Q.length ? showQuestion() : showResult();
+  }));
+  card.querySelector("button").focus({preventScroll:true});
+}
+
+function winner(){
+  const max = Math.max(...score);
+  // en cas d'égalité, la dernière réponse départage
+  return score[last]===max ? last : score.indexOf(max);
+}
+
+function showResult(){
+  drawProgress();
+  const h = H[winner()];
+  hit("reponses"); hit(h.key);
+  const link = FORM_URL ? FORM_URL.replace("ECOLE", encodeURIComponent(h.name)) : "";
+  card.innerHTML = `<div class="result">
+    <div class="small">Le Chapeau a parlé…</div>
+    <div class="crest">${h.sym}</div>
+    <p class="house" style="color:${h.color}">${h.name}</p>
+    <p class="motto">${h.motto}</p>
+    <p>${h.text}</p>
+    <div class="offer">
+      <p><b>Bonne nouvelle : chez Compta Panda, les quatre écoles sont les bienvenues.</b> Recevez votre diagnostic personnalisé lors d'un appel de 10 minutes, sans engagement.</p>
+      <p style="margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a class="btn" onclick="hit('rdv')" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2pWUoccJxOYGCry-hTSz2GZqtO36eBPD5rU3DgX8rw3CUGLOB3mqPcbfN1N4peeMdmKbqtHQZe" target="_blank" rel="noopener">Prendre rendez-vous ✨</a>${link ? `<a class="btn ghost" href="${link}" target="_blank" rel="noopener">Je veux être rappelé</a>` : ""}</p>
+      <p class="contact" style="margin-top:14px">Ou contactez-nous directement :<br>
+        Emmanuel HARROCH, Expert-Comptable diplômé<br><b>06 50 41 85 82</b> · <b>contact@compta-panda.com</b></p>
+    </div>
+    <button type="button" class="btn ghost" id="again">Refaire le quiz</button>
+  </div>`;
+  document.getElementById("again").addEventListener("click",()=>{step=0;score=[0,0,0,0];showQuestion()});
+}
+showQuestion();
+</script>
+
+</body></html>
